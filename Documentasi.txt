@@ -1,0 +1,24 @@
+menonaktifkan apache dan mysql
+    - /etc/init.d/apache2 stop
+    - /etc/init.d/mysql stop
+mengaktifkan xampp
+    - cd /opt/lampp
+    - sudo ./manager-linux-x64.run
+
+membuat file migrasi
+    -  php artisan make:migration create_tabel_table
+    -  php artisan migrate
+        - membuat model dan migrasi 
+            - php artisan make:model nama model -m
+
+membuat file seeder
+
+membuat file controller
+php artisan make:controller nama controller
+
+membuat file view-component
+    - php artisan make:component nama_component
+menjalankan laravel
+    - php artisan serve
+
+    php artisan storage:link

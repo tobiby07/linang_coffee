@@ -25,11 +25,15 @@
                         <div class="dropdown-menu dropdown-menu-right profile-notification">
                             <div class="pro-head">
                                 <span>LOG OUT</span>
-                                <a href="auth-signin.html" class="dud-logout" title="Logout">
-                                    <i class="feather icon-log-out"></i>
-                                </a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dud-logout" title="Logout">
+                                        <i class="feather icon-log-out"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
+
                     </div>
                 </li>
             </ul>

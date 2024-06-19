@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KategoriMenuController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\Users;
+use App\Http\Controllers\TransactionController;
+use App\Http\Middleware\EnsureLoggedIn;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,49 +23,52 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// login user route
-Route::get('/login', function () {
-    return view('login');
+// Routes for guests (not logged in)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', function () {
+        return view('login');
+    });
+
+    Route::get('/register', function () {
+        return view('register');
+    });
+
+    Route::post('/register', [Users::class, 'store'])->name('register');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
 
-// dashboard route
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
-Route::get('/home', function () {
-    return view('dashboard');
-});
+// Route to log out
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// kasir route
-Route::get('/kasir', function () {
-    return view('kasir');
-});
+// Routes for authenticated users
+Route::middleware(EnsureLoggedIn::class)->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-// Daftar Menu Route
-Route::get('/menu', function () {
-    return view('menu');
-});
+    Route::get('/home', function () {
+        return view('dashboard');
+    });
 
-// Tambah Menu Route
-Route::get('/tambah-menu', function () {
-    return view('tambah-menu');
-});
+    // Route::get('/kasir', function () {
+    //     return view('kasir');
+    // });
 
-// tambah kategori route
-Route::get('/tambah-kategori', function () {
-    return view('tambah-kategori');
-});
+    // Route::get('/laporan', function () {
+    //     return view('laporan');
+    // });
+    Route::get('/laporan-harian', function () {
+        return view('laporan-harian');
+    });
+    Route::get('/laporan-bulanan', function () {
+        return view('laporan-bulanan');
+    });
 
-// laporan route
-Route::get('/laporan', function () {
-    return view('laporan');
-});
-Route::get('/laporan-harian', function () {
-    return view('laporan-harian');
-});
-Route::get('/laporan-bulanan', function () {
-    return view('laporan-bulanan');
-});
+    Route::resource('kategori-menu', KategoriMenuController::class);
+    Route::resource('menu', MenuController::class);
+    Route::get('/kasir', [TransactionController::class, 'kasir'])->name('kasir');
+    Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+    Route::get('/laporan', [TransactionController::class, 'laporan'])->name('laporan');
+    Route::get('/transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
 
-
-
+});
