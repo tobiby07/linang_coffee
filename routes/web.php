@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriMenuController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\Users;
+use App\Http\Controllers\users;
 use App\Http\Controllers\TransactionController;
 use App\Http\Middleware\EnsureLoggedIn;
 use Illuminate\Support\Facades\Route;
@@ -66,9 +66,13 @@ Route::middleware(EnsureLoggedIn::class)->group(function () {
 
     Route::resource('kategori-menu', KategoriMenuController::class);
     Route::resource('menu', MenuController::class);
-    Route::get('/kasir', [TransactionController::class, 'kasir'])->name('kasir');
+    // Route::get('/kasir', [TransactionController::class, 'kasir'])->name('kasir');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/laporan', [TransactionController::class, 'laporan'])->name('laporan');
     Route::get('/transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
+    
+    Route::get('/kasir', [TransactionController::class, 'viewCart'])->name('kasir');
+    Route::post('/add-to-cart', [TransactionController::class, 'addToCart'])->name('transactions.add_to_cart');
+    Route::post('/checkout', [TransactionController::class, 'checkout'])->name('transactions.checkout');
 
 });

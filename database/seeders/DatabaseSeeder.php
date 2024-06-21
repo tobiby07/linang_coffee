@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(users::class);
         $this->call(KategoriMenuSeeder::class);
+        $this->call(MenuSeeder::class);
     }
 }

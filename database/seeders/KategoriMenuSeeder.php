@@ -13,7 +13,8 @@ class KategoriMenuSeeder extends Seeder
     public function run(): void
     {
         DB::table('kategori_menu')->insert([
-            ['name' => 'Minuman'],
+            ['name' => 'Minuman Non Coffee'],
+            ['name' => 'Coffee'],
             ['name' => 'Makanan'],
             ['name' => 'Snack'],
         ]);

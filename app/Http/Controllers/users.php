@@ -54,7 +54,7 @@ class Users extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully!');
+        return redirect()->route('login')->with('success', 'User created successfully!');
     }
 
     /**

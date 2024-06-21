@@ -81,7 +81,6 @@
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalForm1">Tambah Kategori Baru</button>
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalForm2">Tambah Menu Baru</button>
 
-      <h1>Menu</h1>
     
       @if(session('success'))
           <p>{{ session('success') }}</p>
@@ -91,29 +90,78 @@
           <p>{{ session('error') }}</p>
       @endif
   
-      <h2>Kategori Menu</h2>
-      <ul>
-          @foreach($kategoriMenu as $kategori)
-              <li>{{ $kategori->name }}</li>
-          @endforeach
-      </ul>
-  
-      <h2>Menu</h2>
-      @if (isset($menu) && count($menu) > 0)
-          <ul class="list-group">
-              @foreach ($menu as $item)
-                  <li class="list-group-item">
-                      {{ $item->name }} - {{ $item->price }} - {{ $item->kategori->name }} - {{ $item->description }}
-                      @if($item->image)
-                          <br>
-                          <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" style="max-width: 100px;">
-                      @endif
-                  </li>
-              @endforeach
-          </ul>
-      @else
-          <p>Tidak ada menu yang ditemukan.</p>
-      @endif
+
+      <style>
+        .intro {
+  height: 100%;
+}
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+thead th {
+  color: #fff;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+.table-scroll {
+  border-radius: .5rem;
+}
+
+.table-scroll table thead th {
+  font-size: 1.25rem;
+}
+thead {
+  top: 0;
+  position: sticky;
+}
+      </style>
+
+      <section class="intro mt-5">
+        <div class="bg-image h-100" ">
+          <div class="mask d-flex align-items-center h-100">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-body p-0">
+                      <div class="table-responsive table-scroll" data-mdb-perfect-scrollbar="true" style="position: relative; height: 700px">
+                        <table class="table table-striped mb-0">
+                          <thead>
+                            <tr>
+                              <th scope="col">Kategori</th>
+                              <th scope="col">Nama</th>
+                              <th scope="col">Harga</th>
+                              <th scope="col">Keterangan</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($menu as $item)
+                            <tr>
+                              <td>{{ $item->kategori->name }}</td>
+                              <td>{{ $item->name }}</td>
+                              <td>{{ $item->price }}</td>
+                              <td>Aaron Chapman</td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       
   @endsection
 </x-layouts>

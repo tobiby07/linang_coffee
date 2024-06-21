@@ -7,6 +7,8 @@ use App\Models\Transaction;
 use App\Models\TransactionItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+
 
 class TransactionController extends Controller
 {
@@ -59,5 +61,61 @@ class TransactionController extends Controller
     {
         $transaction->load('items.menu');  
         return view('laporan', compact('transaction')); 
+    }
+    public function addToCart(Request $request)
+    {
+        $request->validate([
+            'menu_id' => 'required|exists:menus,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $cart = session()->get('cart', []);
+        $menu = Menu::find($request->menu_id);
+
+        if(isset($cart[$request->menu_id])) {
+            $cart[$request->menu_id]['quantity'] += $request->quantity;
+        } else {
+            $cart[$request->menu_id] = [
+                "name" => $menu->name,
+                "quantity" => $request->quantity,
+                "price" => $menu->price,
+                "image" => $menu->image
+            ];
+        }
+
+        session()->put('cart', $cart);
+        return redirect()->back()->with('success', 'Item added to cart successfully!');
+    }
+
+    public function viewCart()
+    {
+        $menus = Menu::all();
+        return view('kasir', compact('menus'));
+    }
+
+    public function checkout()
+    {
+        $cart = session()->get('cart', []);
+        $total = array_sum(array_column($cart, 'price'));
+
+        $transaction = Transaction::create([
+            'total' => $total,
+            'user_id' => Auth::id(),
+        ]);
+
+        foreach ($cart as $id => $details) {
+            TransactionItem::create([
+                'transaction_id' => $transaction->id,
+                'menu_id' => $id,
+                'quantity' => $details['quantity'],
+                'price' => $details['price'],
+            ]);
+        }
+
+        session()->forget('cart');
+
+        // Generate PDF
+        $pdf = FacadePdf::loadView('invoice', compact('transaction', 'cart'));         
+        return $pdf->download('invoice.pdf');
     }
 }
