@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Invoice</title>
 </head>
+
 <body>
     <h1>Invoice</h1>
     <p><strong>User:</strong> {{ $transaction->user->name }}</p>
@@ -20,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($cart as $id => $details)
+            @foreach ($cart as $id => $details)
                 <tr>
                     <td>{{ $details['name'] }}</td>
                     <td>{{ $details['quantity'] }}</td>
@@ -31,4 +33,5 @@
         </tbody>
     </table>
 </body>
+
 </html>

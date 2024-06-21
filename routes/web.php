@@ -19,13 +19,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 // Routes for guests (not logged in)
 Route::middleware('guest')->group(function () {
     Route::get('/login', function () {
+        return view('login');
+    });
+    Route::get('/', function () {
         return view('login');
     });
 
@@ -50,27 +51,20 @@ Route::middleware(EnsureLoggedIn::class)->group(function () {
         return view('dashboard');
     });
 
-    // Route::get('/kasir', function () {
-    //     return view('kasir');
-    // });
 
-    // Route::get('/laporan', function () {
-    //     return view('laporan');
-    // });
-    Route::get('/laporan-harian', function () {
-        return view('laporan-harian');
-    });
-    Route::get('/laporan-bulanan', function () {
-        return view('laporan-bulanan');
-    });
 
     Route::resource('kategori-menu', KategoriMenuController::class);
+    Route::put('kategori-menu/{kategori_menu}', [KategoriMenuController::class, 'update'])->name('kategori-menu.update');
+
     Route::resource('menu', MenuController::class);
+    Route::post('menu/{menu}/update', [MenuController::class, 'update'])->name('menu.update');
+    Route::post('menu/{menu}/delete', [MenuController::class, 'destroy'])->name('menu.destroy');
+
     // Route::get('/kasir', [TransactionController::class, 'kasir'])->name('kasir');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/laporan', [TransactionController::class, 'laporan'])->name('laporan');
     Route::get('/transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
-    
+
     Route::get('/kasir', [TransactionController::class, 'viewCart'])->name('kasir');
     Route::post('/add-to-cart', [TransactionController::class, 'addToCart'])->name('transactions.add_to_cart');
     Route::post('/checkout', [TransactionController::class, 'checkout'])->name('transactions.checkout');
