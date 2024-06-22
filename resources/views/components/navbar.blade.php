@@ -5,7 +5,7 @@
             
             <div class="">
                 <div class="main-menu-header">
-                    <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
+                    <img class="img-radius" src="assets/images/profile.png" alt="User-Profile-Image">
                     <div class="user-details">
                         <span class="text-uppercase">{{$user->name}}</span>                            
                         <div class="">Kasir & Barista</div>                            
