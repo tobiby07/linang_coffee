@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\KategoriMenu;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
 use Illuminate\Http\Request;
@@ -12,11 +13,6 @@ use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 class TransactionController extends Controller
 {
-    public function kasir()
-    {
-        $menus = Menu::all();
-        return view('kasir', compact('menus'));
-    }
 
     public function store(Request $request)
     {
@@ -89,9 +85,27 @@ class TransactionController extends Controller
 
     public function viewCart()
     {
+       
+
+        $kategoriMenus = KategoriMenu::all();
         $menus = Menu::all();
-        return view('kasir', compact('menus'));
+
+     
+        return view('kasir', compact('kategoriMenus', 'menus'));
     }
+
+    public function removeFromCart($id)
+    {
+    $cart = session()->get('cart', []);
+
+    if(isset($cart[$id])) {
+        unset($cart[$id]);
+        session()->put('cart', $cart);
+    }
+
+    return redirect()->back()->with('success', 'Item removed from cart successfully!');
+    }
+
 
     public function checkout()
     {

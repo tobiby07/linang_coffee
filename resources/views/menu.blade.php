@@ -44,7 +44,7 @@
                                         <form action="{{ route('menu.destroy', $item->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
-                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                            <button onclick="return confirm('Are you sure you want to continue?')" type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -97,7 +97,7 @@
                                                         <input type="file" class="form-control" id="image"
                                                             name="image">
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button onclick="return confirm('Are you sure you want to continue?')" type="submit" class="btn btn-primary">Submit</button>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -157,7 +157,7 @@
                                                                 alt="{{ $item->name }}" width="100">
                                                         @endif
                                                     </div>
-                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                    <button onclick="return confirm('Are you sure you want to continue?')" type="submit" class="btn btn-primary">Update</button>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -190,7 +190,7 @@
                                     <label for="name" class="form-label">Nama Kategori Baru</label>
                                     <input type="text" class="form-control" id="name" name="name" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button onclick="return confirm('Are you sure you want to continue?')" type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -230,7 +230,7 @@
                                     <input type="text" class="form-control" id="editKategoriName" name="name"
                                         required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button onclick="return confirm('Are you sure you want to continue?')" type="submit" class="btn btn-primary">Update</button>
                             </form>
                         </div>
                         <div class="modal-footer">
