@@ -211,26 +211,24 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST"
-                                action="{{ route('kategori-menu.update', ['kategori_menu' => $kategori->id]) }}">
+                            <form method="POST" action="" id="editKategoriForm">
                                 @csrf
                                 @method('PUT')
-
                                 <div class="mb-3">
                                     <label for="existingCategory" class="form-label">Existing Categories</label>
-                                    <select name="existingCategory" id="existingCategory" class="form-control" required>
+                                    <select name="existingCategory" id="existingCategory" class="form-control" required
+                                        onchange="updateCategoryName(this)">
+                                        <option value="" selected disabled>Pilih Kategori</option>
                                         @foreach ($kategoriMenu as $category)
-                                            <option value="{{ $category->id }}"
-                                                @if ($kategori->id === $category->id) selected @endif>{{ $category->name }}
-                                            </option>
+                                            <option value="{{ $category->id }}" data-name="{{ $category->name }}">
+                                                {{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="mb-3">
-                                    <label for="editKategoriName" class="form-label">New Nama Kategori</label>
+                                    <label for="editKategoriName" class="form-label">Nama Kategori</label>
                                     <input type="text" class="form-control" id="editKategoriName" name="name"
-                                        value="{{ $kategori->name }}" required>
+                                        required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </form>
@@ -241,7 +239,16 @@
                     </div>
                 </div>
             </div>
+            <script>
+                function updateCategoryName(selectElement) {
+                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                    const selectedName = selectedOption.getAttribute('data-name');
+                    const selectedId = selectedOption.value;
 
-        </div>
-    @endsection
+                    document.getElementById('editKategoriName').value = selectedName;
+                    document.getElementById('editKategoriForm').action = '/kategori-menu/' + selectedId;
+                }
+            </script>
+            
+        @endsection
 </x-layouts>

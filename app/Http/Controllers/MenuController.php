@@ -103,4 +103,16 @@ class MenuController extends Controller
             return redirect()->back()->with('error', 'Failed to delete menu.');
         }
     }
+
+    public function toggleStatus($id)
+    {
+        try {
+            $menu = Menu::findOrFail($id);
+            $menu->status = !$menu->status;
+            $menu->save();
+            return redirect()->back()->with('success', 'Menu status updated successfully.');
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('error', 'Failed to update menu status.');
+    }
+    }
 }

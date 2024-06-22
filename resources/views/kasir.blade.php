@@ -4,12 +4,6 @@
     @endslot
 
     @section('content')
-        @if (session('success'))
-            <div>{{ session('success') }}</div>
-        @endif
-
-
-
         <div class="container">
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
@@ -30,16 +24,20 @@
                                     <div class="form-group">
                                         <label for="quantity-{{ $menu->id }}">Quantity:</label>
                                         <input type="number" name="quantity" id="quantity-{{ $menu->id }}"
-                                            class="form-control" min="1" required>
+                                            class="form-control" min="1" required {{ $menu->status ? '' : 'disabled' }}>
                                     </div>
-                                    <button class="btn btn-primary" type="submit">Add to Cart</button>
+                                    <button class="btn btn-primary" type="submit" {{ $menu->status ? '' : 'disabled' }}>Add to Cart</button>
+                                </form>
+                                <form action="{{ route('menu.toggle-status', $menu->id) }}" method="POST" class="mt-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="{{ $menu->status ? 'btn btn-dark' : 'btn btn-danger'  }}" type="submit">{{ $menu->status ? 'Mark as Unavailable' : 'Mark as Available' }}</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
-
 
             <h2>Cart</h2>
             <table class="table">

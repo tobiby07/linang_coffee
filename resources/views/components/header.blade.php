@@ -27,7 +27,7 @@
                                 <span>LOG OUT</span>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button type="submit" class="dud-logout" title="Logout">
+                                    <button type="submit" class="dud-logout btn-danger" title="Logout">
                                         <i class="feather icon-log-out"></i>
                                     </button>
                                 </form>

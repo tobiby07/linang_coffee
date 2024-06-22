@@ -16,7 +16,8 @@ class Menu extends Model
         'kategori_menu_id',
         'description',
         'price',
-        'image'
+        'image',
+        'status'
     ];
 
     public function kategori()

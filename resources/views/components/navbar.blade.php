@@ -7,8 +7,8 @@
                 <div class="main-menu-header">
                     <img class="img-radius" src="assets/images/user/avatar-2.jpg" alt="User-Profile-Image">
                     <div class="user-details">
-                        <span>John Doe</span>
-                        <div id="more-details">UX Designer<i class=""></i></div>
+                        <span class="text-uppercase">{{$user->name}}</span>                            
+                        <div class="">Kasir & Barista</div>                            
                     </div>
                 </div>
             </div>

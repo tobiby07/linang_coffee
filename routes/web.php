@@ -59,6 +59,8 @@ Route::middleware(EnsureLoggedIn::class)->group(function () {
     Route::resource('menu', MenuController::class);
     Route::post('menu/{menu}/update', [MenuController::class, 'update'])->name('menu.update');
     Route::post('menu/{menu}/delete', [MenuController::class, 'destroy'])->name('menu.destroy');
+    Route::put('/menu/{id}/toggle-status', [MenuController::class, 'toggleStatus'])->name('menu.toggle-status');
+
 
     // Route::get('/kasir', [TransactionController::class, 'kasir'])->name('kasir');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
