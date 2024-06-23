@@ -80,7 +80,7 @@ class TransactionController extends Controller
         }
 
         session()->put('cart', $cart);
-        return redirect()->back()->with('success', 'Item added to cart successfully!');
+        return redirect('kasir')->with('success', 'Item added to cart successfully!');
     }
 
     public function viewCart()
@@ -128,8 +128,12 @@ class TransactionController extends Controller
 
         session()->forget('cart');
 
+
         // Generate PDF
-        $pdf = FacadePdf::loadView('invoice', compact('transaction', 'cart'));         
-        return $pdf->download('invoice.pdf');
+        $pdf = FacadePdf::loadView('invoice', compact('transaction', 'cart'))
+                ->setPaper('a5', 'potrait');       
+        return $pdf->download('invoicce.pdf');
+            
+        
     }
 }
