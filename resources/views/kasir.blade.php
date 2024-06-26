@@ -34,15 +34,15 @@
                                                 
                                                 <div class="input-group mb-3">
                                                     <button class="btn btn-primary mb-2" type="button"
-                                                        id="minus-{{ $menu->id }} "  {{ $menu->status ? '' : 'disabled' }}>
+                                                        id="minus-{{ $menu->id }}" {{ $menu->status ? '' : 'disabled' }} >
                                                         <i class="fas fa-minus"></i>
                                                     </button>
                                                     <input type="text" name="quantity" id="quantity-{{ $menu->id }}"
                                                         class="form-control mx-sm-3 mb-2" min="1" value="1" required style="width: 60px" readonly
                                                         {{ $menu->status ? '' : 'disabled' }}>
                                                     <button class="btn btn-primary mb-2" type="button"
-                                                        id="plus-{{ $menu->id }}"  {{ $menu->status ? '' : 'disabled' }}>
-                                                        <i class="fas fa-plus"></i>
+                                                        id="plus-{{ $menu->id }}" {{ $menu->status ? '' : 'disabled' }} >
+                                                        <i class="fas fa-plus"  ></i>
                                                     </button>
                                                 </div>
 

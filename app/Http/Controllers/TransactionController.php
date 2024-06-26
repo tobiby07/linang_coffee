@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Models\TransactionItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 
 
@@ -58,6 +59,41 @@ class TransactionController extends Controller
         $transaction->load('items.menu');  
         return view('laporan', compact('transaction')); 
     }
+    public function laporanHarian()
+    {
+        $today = Carbon::today();
+        $transactions = Transaction::with('items.menu', 'user')
+            ->whereDate('created_at', $today)
+            ->get();
+
+        return view('laporanHarian', compact('transactions'));
+    }
+
+    public function laporanBulanan(Request $request)
+    {
+        $month = $request->input('month', Carbon::now()->month);
+        $transactions = Transaction::with('items.menu', 'user')
+            ->whereMonth('created_at', $month)
+            ->get();
+
+        return view('laporanBulanan', compact('transactions', 'month'));
+    }
+
+    public function cetakLaporanBulanan($month)
+    {
+        $transactions = Transaction::with('items.menu', 'user')
+            ->whereMonth('created_at', $month)
+            ->get();
+
+        $pdf = FacadePdf::loadView('laporanBulananPdf', compact('transactions', 'month'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download("laporan_bulanan_{$month}.pdf");
+    }
+
+
+
+
     public function addToCart(Request $request)
     {
         $request->validate([
@@ -110,7 +146,7 @@ class TransactionController extends Controller
     public function checkout()
     {
         $cart = session()->get('cart', []);
-        $total = array_sum(array_column($cart, 'price'));
+        $total = array_sum(array_map(function ($item) { return $item['price'] * $item['quantity']; }, session('cart', [])));
 
         $transaction = Transaction::create([
             'total' => $total,
@@ -132,7 +168,7 @@ class TransactionController extends Controller
         // Generate PDF
         $pdf = FacadePdf::loadView('invoice', compact('transaction', 'cart'))
                 ->setPaper('a5', 'potrait');       
-        return $pdf->download('invoicce.pdf');
+        return $pdf->stream('invoice.pdf');
             
         
     }

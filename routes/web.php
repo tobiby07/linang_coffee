@@ -64,10 +64,11 @@ Route::middleware(EnsureLoggedIn::class)->group(function () {
 
     // Route::get('/kasir', [TransactionController::class, 'kasir'])->name('kasir');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
-    Route::get('/laporan', [TransactionController::class, 'laporan'])->name('laporan');
     Route::get('/transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
     Route::post('/transactions/remove-from-cart/{id}', [TransactionController::class, 'removeFromCart'])->name('transactions.remove_from_cart');
-
+    Route::get('/laporan', [TransactionController::class, 'laporanHarian'])->name('laporanHarian');
+    Route::get('/laporanBulanan', [TransactionController::class, 'laporanBulanan'])->name('laporanBulanan');
+    Route::get('/reports/monthly/download/{month}', [TransactionController::class, 'cetakLaporanBulanan'])->name('reports.monthly.download');
 
     Route::get('/kasir', [TransactionController::class, 'viewCart'])->name('kasir');
     Route::post('/add-to-cart', [TransactionController::class, 'addToCart'])->name('transactions.add_to_cart');
