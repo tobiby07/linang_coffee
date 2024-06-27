@@ -144,32 +144,42 @@ class TransactionController extends Controller
 
 
     public function checkout()
-    {
-        $cart = session()->get('cart', []);
-        $total = array_sum(array_map(function ($item) { return $item['price'] * $item['quantity']; }, session('cart', [])));
+{
+    $cart = session()->get('cart', []);
+    $total = array_sum(array_column($cart, 'price'));
 
-        $transaction = Transaction::create([
-            'total' => $total,
-            'user_id' => Auth::id(),
+    $transaction = Transaction::create([
+        'total' => $total,
+        'user_id' => Auth::id(),
+    ]);
+
+    foreach ($cart as $id => $details) {
+        TransactionItem::create([
+            'transaction_id' => $transaction->id,
+            'menu_id' => $id,
+            'quantity' => $details['quantity'],
+            'price' => $details['price'],
         ]);
-
-        foreach ($cart as $id => $details) {
-            TransactionItem::create([
-                'transaction_id' => $transaction->id,
-                'menu_id' => $id,
-                'quantity' => $details['quantity'],
-                'price' => $details['price'],
-            ]);
-        }
-
-        session()->forget('cart');
-
-
-        // Generate PDF
-        $pdf = FacadePdf::loadView('invoice', compact('transaction', 'cart'))
-                ->setPaper('a5', 'potrait');       
-        return $pdf->stream('invoice.pdf');
-            
-        
     }
+
+    session()->forget('cart');
+            
+    return view('invoice', compact('transaction', 'cart'));
+
+    // // Calculate dynamic paper height
+    // $baseHeight = 250; // base height for header and footer
+    // $itemHeight = 20;  // height per item
+    // $totalHeight = $baseHeight + (count($cart) * $itemHeight);
+
+    // // Set custom paper size: width is 80mm (about 226.77 points), height is dynamic
+    // $customPaper = [0, 0, 226.77, $totalHeight];
+
+    // // Generate PDF with custom paper size
+    // $pdf = FacadePdf::loadView('invoice', compact('transaction', 'cart'))
+    //     ->setPaper($customPaper);
+
+    // // Stream PDF for direct printing
+    // return $pdf->stream('invoice.pdf');
+}
+
 }

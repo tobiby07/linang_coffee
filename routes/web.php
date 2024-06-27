@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriMenuController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\users;
@@ -43,13 +44,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Routes for authenticated users
 Route::middleware(EnsureLoggedIn::class)->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-
-    Route::get('/home', function () {
-        return view('dashboard');
-    });
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
 
 
 
