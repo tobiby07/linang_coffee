@@ -146,7 +146,7 @@ class TransactionController extends Controller
     public function checkout()
 {
     $cart = session()->get('cart', []);
-    $total = array_sum(array_column($cart, 'price'));
+    $total = array_sum(array_map(function ($item) { return $item['price'] * $item['quantity']; }, session('cart', []))); 
 
     $transaction = Transaction::create([
         'total' => $total,
