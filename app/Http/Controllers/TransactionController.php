@@ -165,21 +165,6 @@ class TransactionController extends Controller
     session()->forget('cart');
             
     return view('invoice', compact('transaction', 'cart'));
-
-    // // Calculate dynamic paper height
-    // $baseHeight = 250; // base height for header and footer
-    // $itemHeight = 20;  // height per item
-    // $totalHeight = $baseHeight + (count($cart) * $itemHeight);
-
-    // // Set custom paper size: width is 80mm (about 226.77 points), height is dynamic
-    // $customPaper = [0, 0, 226.77, $totalHeight];
-
-    // // Generate PDF with custom paper size
-    // $pdf = FacadePdf::loadView('invoice', compact('transaction', 'cart'))
-    //     ->setPaper($customPaper);
-
-    // // Stream PDF for direct printing
-    // return $pdf->stream('invoice.pdf');
 }
 
 }
