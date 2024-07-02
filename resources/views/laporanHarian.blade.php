@@ -1,6 +1,6 @@
 <x-layouts>
     @slot('title')
-        Dashboard
+        LAPORAN HARIAN
     @endslot
     @section('content')
         <div class="container">

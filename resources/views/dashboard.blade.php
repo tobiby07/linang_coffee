@@ -1,6 +1,6 @@
 <x-layouts>
     @slot('title')
-        Dashboard
+        DASHBOARD
     @endslot
 
     @section('content')

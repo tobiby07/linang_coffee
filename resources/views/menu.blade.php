@@ -41,9 +41,9 @@
                                     <td>
                                         <button class="btn btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editMenuModal{{ $item->id }}">Edit</button>
-                                        <form action="{{ route('menu.destroy', $item->id) }}" method="POST"
-                                            style="display:inline;">
+                                        <form action="{{ route('menu.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf
+                                            @method('DELETE')
                                             <button onclick="return confirm('Are you sure you want to continue?')" type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </td>

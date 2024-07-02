@@ -92,17 +92,17 @@ class MenuController extends Controller
     }
 
     public function destroy(Menu $menu)
-    {
-        try {
-            $menu->delete();
-            Log::info('Menu deleted successfully: ' . $menu->name);
+{
+    try {
+        $menu->delete();
+        Log::info('Menu deleted successfully: ' . $menu->name);
 
-            return redirect()->route('menu.index')->with('success', 'Menu deleted successfully.');
-        } catch (\Exception $exception) {
-            Log::error('Error deleting menu: ' . $exception->getMessage());
-            return redirect()->back()->with('error', 'Failed to delete menu.');
-        }
+        return redirect()->route('menu')->with('success', 'Menu deleted successfully.');
+    } catch (\Exception $exception) {
+        Log::error('Error deleting menu: ' . $exception->getMessage());
+        return redirect()->back()->with('error', 'Failed to delete menu.');
     }
+}
 
     public function toggleStatus($id)
     {

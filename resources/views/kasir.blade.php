@@ -1,6 +1,6 @@
 <x-layouts>
     @slot('title')
-        Kasir
+        TRANSAKSI
     @endslot
 
     @section('content')
