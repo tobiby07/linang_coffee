@@ -115,26 +115,26 @@
         window.console = window.console || function(t) {};
     </script>
 
-<script>
-    if (document.location.search.match(/type=embed/gi)) {
-        window.parent.postMessage("resize", "*");
-    }
-
-    function redirectAfterPrint() {
-        // Check if JavaScript is disabled
-        if (typeof window.onafterprint !== 'function') {
-            // If disabled, use a meta refresh tag for fallback
-            const redirectMeta = document.createElement('meta');
-            redirectMeta.httpEquiv = 'refresh';
-            redirectMeta.content = '0;url={{ route('kasir') }}';
-            document.head.appendChild(redirectMeta);
-        } else {
-            window.onafterprint = function() {
-                window.location.href = "{{ route('kasir') }}";
-            };
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
         }
-    }
-</script>
+
+        function redirectAfterPrint() {
+            // Check if JavaScript is disabled
+            if (typeof window.onafterprint !== 'function') {
+                // If disabled, use a meta refresh tag for fallback
+                const redirectMeta = document.createElement('meta');
+                redirectMeta.httpEquiv = 'refresh';
+                redirectMeta.content = '0;url={{ route('kasir') }}';
+                document.head.appendChild(redirectMeta);
+            } else {
+                window.onafterprint = function() {
+                    window.location.href = "{{ route('kasir') }}";
+                };
+            }
+        }
+    </script>
 </head>
 
 <body translate="no" onload="window.print()">
@@ -150,7 +150,7 @@
                     <p>WA.0895-3664-98570</p>
                 </div>
             </center>
-    
+
             <div id="top">
                 <div class="alamat">
                     <center>
@@ -160,7 +160,7 @@
                     </center>
                 </div>
             </div>
-    
+
             <div id="bot">
                 <div id="table">
                     <table>
@@ -203,6 +203,8 @@
                             <td class="payment">
                                 <h2>Rp. {{ $transaction->total }}</h2>
                             </td>
+                            <p>Amount Paid: Rp.{{ $transaction->amount_paid }}</p>
+                            <p>Change: Rp.{{ $transaction->change }}</p>
                         </tr>
                     </table>
                 </div>

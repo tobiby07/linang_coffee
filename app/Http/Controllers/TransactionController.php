@@ -143,14 +143,46 @@ class TransactionController extends Controller
     }
 
 
-    public function checkout()
+//     public function checkout()
+// {
+//     $cart = session()->get('cart', []);
+//     $total = array_sum(array_map(function ($item) { return $item['price'] * $item['quantity']; }, session('cart', []))); 
+
+//     $transaction = Transaction::create([
+//         'total' => $total,
+//         'user_id' => Auth::id(),
+//     ]);
+
+//     foreach ($cart as $id => $details) {
+//         TransactionItem::create([
+//             'transaction_id' => $transaction->id,
+//             'menu_id' => $id,
+//             'quantity' => $details['quantity'],
+//             'price' => $details['price'],
+//         ]);
+//     }
+
+//     session()->forget('cart');
+            
+//     return view('invoice', compact('transaction', 'cart'));
+// }
+public function checkout(Request $request)
 {
+    $request->validate([
+        'amount_paid' => 'required|numeric|min:0',
+    ]);
+
     $cart = session()->get('cart', []);
     $total = array_sum(array_map(function ($item) { return $item['price'] * $item['quantity']; }, session('cart', []))); 
+
+    $amountPaid = $request->input('amount_paid');
+    $change = $amountPaid - $total;
 
     $transaction = Transaction::create([
         'total' => $total,
         'user_id' => Auth::id(),
+        'amount_paid' => $amountPaid,
+        'change' => $change,
     ]);
 
     foreach ($cart as $id => $details) {
@@ -166,5 +198,6 @@ class TransactionController extends Controller
             
     return view('invoice', compact('transaction', 'cart'));
 }
+
 
 }

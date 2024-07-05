@@ -109,10 +109,19 @@
                         {{ array_sum(array_map(function ($item) { return $item['price'] * $item['quantity']; }, session('cart', []))) }}
                     </h3>
 
-                    <form action="{{ route('transactions.checkout') }}" method="POST">
+                    {{-- <form action="{{ route('transactions.checkout') }}" method="POST">
                         @csrf
                         <button class="btn btn-success" type="submit">Checkout</button>
+                    </form> --}}
+                    <form action="{{ route('transactions.checkout') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="amount_paid" class="form-label">Amount Paid</label>
+                            <input type="number" name="amount_paid" id="amount_paid" class="form-control" required>
+                        </div>
+                        <button class="btn btn-success" type="submit">Checkout</button>
                     </form>
+                    
                 </div>
             </div>
         </div>
